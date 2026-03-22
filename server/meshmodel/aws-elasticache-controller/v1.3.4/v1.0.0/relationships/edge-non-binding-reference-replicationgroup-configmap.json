@@ -1,0 +1,71 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "schemaVersion": "relationships.meshery.io/v1alpha3",
+  "version": "v1.0.0",
+  "kind": "edge",
+  "type": "non-binding",
+  "subType": "reference",
+  "evaluationQuery": "edge_non_binding_reference_relationship",
+  "status": "enabled",
+  "metadata": {
+    "description": "Reference relationship from AWS ElastiCache ReplicationGroup to Kubernetes ConfigMap. Represents applications referencing ElastiCache Redis endpoint, port, and cluster configuration via Kubernetes ConfigMap."
+  },
+  "model": {
+    "schemaVersion": "models.meshery.io/v1beta1",
+    "version": "v1.0.0",
+    "name": "aws-elasticache-controller",
+    "registrant": {
+      "kind": "artifacthub"
+    },
+    "category": {
+      "name": "Provisioning"
+    },
+    "displayName": "AWS ElastiCache Controller"
+  },
+  "selectors": [
+    {
+      "allow": {
+        "from": [
+          {
+            "kind": "ReplicationGroup",
+            "model": {
+              "name": "aws-elasticache-controller",
+              "registrant": {
+                "kind": "artifacthub"
+              }
+            },
+            "patch": {
+              "patchStrategy": "replace",
+              "mutatorRef": [
+                ["displayName"]
+              ],
+              "description": "ElastiCache ReplicationGroup identity can be referenced by Kubernetes configuration."
+            }
+          }
+        ],
+        "to": [
+          {
+            "kind": "ConfigMap",
+            "model": {
+              "name": "kubernetes",
+              "registrant": {
+                "kind": "artifacthub"
+              }
+            },
+            "patch": {
+              "patchStrategy": "replace",
+              "mutatedRef": [
+                ["data"]
+              ],
+              "description": "ConfigMap data can store ElastiCache Redis endpoint URL, port, and cluster name used for connecting applications to the replication group."
+            }
+          }
+        ]
+      },
+      "deny": {
+        "from": [],
+        "to": []
+      }
+    }
+  ]
+}
